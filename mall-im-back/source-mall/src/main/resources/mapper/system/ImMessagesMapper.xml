@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.source.system.mapper.ImMessagesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.source.system.domain.ImMessages">
+        <id column="id" property="id"/>
+        <result column="sender_id" property="senderId"/>
+        <result column="receiver_id" property="receiverId"/>
+        <result column="content" property="content"/>
+        <result column="message_type" property="messageType"/>
+        <result column="status" property="status"/>
+        <result column="sent_at" property="sentAt"/>
+        <result column="read_at" property="readAt"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cn.source.system.domain.ImMessages">
+        INSERT INTO im_messages (id, sender_id, receiver_id, content, message_type, status, sent_at, read_at)
+        VALUES (#{id}, #{senderId}, #{receiverId}, #{content}, #{messageType}, #{status}, #{sentAt}, #{readAt})
+    </insert>
+
+    <select id="temporaryChat" resultType="cn.source.system.domain.ImMessages" parameterType="java.lang.Long">
+        SELECT DISTINCT CASE
+                            WHEN sender_id = #{userId} THEN receiver_id
+                            ELSE sender_id
+                            END AS chatUserId,
+                        sent_at
+        FROM im_messages
+        WHERE sender_id = #{userId}
+           OR receiver_id = #{userId}
+        ORDER BY sent_at DESC
+    </select>
+    <select id="getSingleChat" resultType="cn.source.system.domain.ImMessages">
+        SELECT id,
+               sender_id,
+               receiver_id,
+               content,
+               message_type,
+               status,
+               sent_at,
+               read_at
+        FROM im_messages
+        WHERE (sender_id = #{userId}
+            AND receiver_id = #{chatUserId})
+           OR (sender_id = #{chatUserId}
+            AND receiver_id = #{userId})
+        ORDER BY sent_at ASC
+    </select>
+
+</mapper>

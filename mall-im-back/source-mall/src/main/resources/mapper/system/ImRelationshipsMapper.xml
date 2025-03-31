@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.source.system.mapper.ImRelationshipsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.source.system.domain.ImRelationships">
+        <id column="user_id" property="userId"/>
+        <result column="related_id" property="relatedId"/>
+        <result column="status" property="status"/>
+        <result column="apply_content" property="applyContent"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO im_relationships (user_id, related_id, status, apply_content, apply_id, create_by, create_time,
+                                      update_by,
+                                      update_time)
+        VALUES (#{userId}, #{relatedId}, #{status}, #{applyContent}, #{applyId}, #{createBy}, #{createTime},
+                #{updateBy},
+                #{updateTime})
+    </insert>
+    <update id="updateStatus">
+        UPDATE im_relationships
+        SET status = #{flag}
+        WHERE user_id = #{userId}
+          AND related_id = #{applyId}
+    </update>
+
+    <update id="updateImRelationships" parameterType="cn.source.system.domain.ImRelationships">
+        UPDATE im_relationships
+        SET status        = #{status},
+            apply_id      = #{applyId},
+            apply_content = #{applyContent}
+        WHERE user_id = #{userId}
+          AND related_id = #{relatedId}
+    </update>
+
+    <select id="selectList" resultType="cn.source.system.domain.ImRelationships"
+            parameterType="cn.source.system.domain.ImRelationships">
+        SELECT CASE
+                   WHEN ir.user_id = #{userId} THEN ir.related_id
+                   ELSE ir.user_id
+                   END AS related_id,
+               ir.status,
+               ir.apply_content
+        FROM im_relationships ir
+        WHERE (ir.user_id = #{userId}
+            OR ir.related_id = #{userId})
+          AND ir.status = #{status}
+    </select>
+    <select id="selectInfoList" resultType="cn.source.system.domain.ImRelationships">
+        SELECT su.user_id AS friendId,
+        su.school_id AS schoolId,
+        su.user_name AS userName,
+        su.avatar AS avatar,
+        ms.school_name AS schoolName
+        FROM sys_user su
+        LEFT JOIN mall_school ms ON su.school_id = ms.id
+        WHERE su.user_id IN
+        <foreach collection="userIdList" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+    <select id="selectByUserIdAndApplyId" resultType="cn.source.system.domain.ImRelationships">
+        SELECT *
+        FROM im_relationships
+        WHERE (user_id = #{userId}
+            AND related_id = #{applyId})
+           OR (user_id = #{applyId}
+            AND related_id = #{userId})
+        LIMIT 1
+    </select>
+
+    <select id="selectApplyList" resultType="cn.source.system.domain.ImRelationships"
+            parameterType="cn.source.system.domain.ImRelationships">
+        SELECT CASE
+                   WHEN ir.user_id = #{userId} THEN ir.related_id
+                   ELSE ir.user_id
+                   END AS related_id,
+               ir.status,
+               ir.apply_content
+        FROM im_relationships ir
+        WHERE ir.apply_id = #{userId}
+          AND ir.status = #{status}
+    </select>
+
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.source.system.mapper.MallSchoolMapper">
+    
+    <resultMap type="MallSchool" id="MallSchoolResult">
+        <result property="id"    column="id"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMallSchoolVo">
+        select id, pic_url, school_name, create_by, create_time, update_by, update_time from mall_school
+    </sql>
+
+    <select id="selectMallSchoolList" parameterType="MallSchool" resultMap="MallSchoolResult">
+        <include refid="selectMallSchoolVo"/>
+        <where>  
+            <if test="picUrl != null  and picUrl != ''"> and pic_url = #{picUrl}</if>
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectMallSchoolById" parameterType="Long" resultMap="MallSchoolResult">
+        <include refid="selectMallSchoolVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMallSchool" parameterType="MallSchool">
+        insert into mall_school
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="picUrl != null">pic_url,</if>
+            <if test="schoolName != null">school_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="picUrl != null">#{picUrl},</if>
+            <if test="schoolName != null">#{schoolName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMallSchool" parameterType="MallSchool">
+        update mall_school
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="picUrl != null">pic_url = #{picUrl},</if>
+            <if test="schoolName != null">school_name = #{schoolName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMallSchoolById" parameterType="Long">
+        delete from mall_school where id = #{id}
+    </delete>
+
+    <delete id="deleteMallSchoolByIds" parameterType="String">
+        delete from mall_school where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.source.system.mapper.MallCommunityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.source.system.domain.MallCommunity">
+        <id column="id" property="id"/>
+        <result column="push_id" property="pushId"/>
+        <result column="avatar" property="avatar"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="push_name" property="pushName"/>
+        <result column="push_school" property="pushSchool"/>
+        <result column="push_content" property="pushContent"/>
+        <result column="start" property="start"/>
+        <result column="recommend" property="recommend"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="mallCommunityPicList" ofType="cn.source.system.domain.MallCommunityPic">
+            <id column="communityPicId" property="id"/>
+            <result column="community_id" property="communityId"/>
+            <result column="pic_url" property="picUrl"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertCommunity" parameterType="cn.source.system.domain.MallCommunity">
+        INSERT INTO mall_community (id, push_id, goods_id, push_name, push_school, push_content, start, recommend,
+                                    create_by,
+                                    create_time, update_by, update_time)
+        VALUES (#{id}, #{pushId}, #{goodsId}, #{pushName}, #{pushSchool}, #{pushContent}, #{start}, #{recommend},
+                #{createBy},
+                #{createTime}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <select id="list" resultType="cn.source.system.domain.MallCommunity" resultMap="BaseResultMap">
+        SELECT a.id,
+        a.push_id,
+        c.avatar,
+        a.goods_id,
+        a.push_name,
+        a.push_school,
+        a.push_content,
+        a.start,
+        a.recommend,
+        a.create_by,
+        a.create_time,
+        a.update_by,
+        a.update_time,
+        b.id AS communityPicId,
+        b.community_id,
+        b.pic_url
+        FROM mall_community a
+        LEFT JOIN mall_community_pic b ON a.id = b.community_id
+        LEFT JOIN sys_user c ON a.push_id = c.user_id
+        <where>
+            <if test="pushSchool != null and pushSchool !='' ">
+                a.push_school = #{pushSchool}
+            </if>
+        </where>
+        ORDER BY a.start DESC, a.recommend DESC, a.create_time DESC
+    </select>
+
+</mapper>

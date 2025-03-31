@@ -1,0 +1,192 @@
+# 项目相关配置
+ruoyi:
+  # 名称
+  name: 开源字节(https://sourcebyte.vip)
+  # 版本
+  version: 4.0.0
+  # 版权年份
+  copyrightYear: 2023
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径 示例（ Windows配置C:/source-vue/static/uploadPath，Linux配置 /home/source-vue/uploadPath）
+  profile: /Users/zhonghanlu/Downloads/ruoyiFile/uploadPath
+  # 获取ip地址开关
+  addressEnabled: true
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: math
+  # 域名，图片url前缀
+  domain: https://sourcebyte.vip
+
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8088
+  port: 8088
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # 连接数满后的排队数，默认为100
+    accept-count: 1000
+    threads:
+      # tomcat最大线程数，默认为200
+      max: 800
+      # Tomcat启动初始化的线程数，默认值10
+      min-spare: 100
+
+# 日志配置
+logging:
+  level:
+    cn.source: debug
+    org.springframework: warn
+
+# Spring配置
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles:
+    active: druid
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 设置总上传的文件大小
+      max-request-size: 20MB
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  # redis 配置
+  redis:
+    # 地址
+    host: 127.0.0.1
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+
+# redisson 配置
+redisson:
+  # 线程池数量
+  threads: 16
+  # Netty线程池数量
+  nettyThreads: 32
+  # 传输模式
+  transportMode: "NIO"
+  # 单节点配置
+  singleServerConfig:
+    # 客户端名称
+    clientName: "E-Mode"
+    # 最小空闲连接数
+    connectionMinimumIdleSize: 32
+    # 连接池大小
+    connectionPoolSize: 64
+    # 连接空闲超时，单位：毫秒
+    idleConnectionTimeout: 10000
+    # 命令等待超时，单位：毫秒
+    timeout: 3000
+    # 如果尝试在此限制之内发送成功，则开始启用 timeout 计时。
+    retryAttempts: 3
+    # 命令重试发送时间间隔，单位：毫秒
+    retryInterval: 1500
+    # 发布和订阅连接的最小空闲连接数
+    subscriptionConnectionMinimumIdleSize: 1
+    # 发布和订阅连接池大小
+    subscriptionConnectionPoolSize: 50
+    # 单个连接最大订阅数量
+    subscriptionsPerConnection: 5
+    # DNS监测时间间隔，单位：毫秒
+    dnsMonitoringInterval: 5000
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: cn.source.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /dev-api
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice,/system/item,/system/article,/system/goods
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+# sms 短信
+sms:
+  id: 换你自己的
+  pwd: 换你自己的
+  template: 换你自己的
+
+# wechat 微信
+wechat:
+  # 公众号
+  mp:
+    # 生活助手
+    appId: 换你自己的
+    secret: 换你自己的
+    accessTokenKey: MP-ACCESS-TOKEN-AUTH
+  # 小程序
+  mini:
+    appId: 换你自己的
+    secret: 换你自己的
+    accessTokenKey: MINI-ACCESS-TOKEN-AUTH
+
+
+# ai对话配置 deepseek
+mall-ai:
+  deepseek:
+    url: https://api.deepseek.com/chat/completions
+    # MALL_AI_CHAT
+    apiKey: sk-15f1f7e2fe2247baba5d255e00f16d4e
+
+alipay:
+  appId: 9021000144667590
+  appPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCDyQRtn8xVZoCt3u0MSN5zF82eZEx7Y8jGZJZhUCXngKmeFBIenNLLqyPjM8wHHBsjoaDxfhS0eZSQ2ee0WnwTC0lBW9E83K8BMa4/8aOLmZn9wjMtylmm0yDR1St5AM/SpOPeY3i/3UG4vM16I8tOTTXTQ4sDGlCdyabZNMcu65jRBRyAO9/xSAeEOUGMzOnVVS2ptqER3zD7cLW9X+g6fh0rNNluaAYwazHBdpQQpw7j04RwTAAZj3IJHh0ziWtV3gcfU/L1XTu77iJ73q31RYqPP3H1xqsJzZTM4smYdJ6ZlLu8eBhi6Ea9BXmb4xOnDsnVpn8mNz4UBuZtVzTDAgMBAAECggEBAIKlpyEyuXS0kL9OcLysBPQe1fa/wl7VFrcwAzFoLpuqHv2bMjdtC0FkYcidkhg+Ud1qH88pSkd8/L75d86Bod2TY8VKzE1FDq3lXbUAzjzYQySiAPDVWTmctz2u0lE8b8uJMmpHPO8g30XQzvfWQnhW7RSLMmYaEW/L+P/+ZbTp6az2GBxGUF4Qy8SdYVB+XFPi/xo/o6Lhe5gPdNNdswBzcJcdcenIYKdjnilPi6DluY02uFpRKDolgT0RIR6XvXKyzUuAj1w/1FkPTlgb177tKxLX7jcNb2y9d2V6f2FrXygGP7lwPLLv7h2cOQQ4psK1dn/LRn2kFOAGWnZ/T9ECgYEAu1qghhqRo6OgJ//b/NW7s5QJDqSZo0FGtuj+lTgyF06qqAzleAYc36MBAPS7KH/3mhWtKkpRhu/ldXzS+CLU+4rnY58gbd/g+arIuqHFymkOR5tBHs252fTdkSBMEGO3IcNyzwKoFRcHW0XuuPDnJiwN3a1JwQ9hP5W+C4zwRBkCgYEAtBIqnWCz2+aDEXQqXnL9SXVu3LSCWqPxz8MFyYZa4waiLlKBixcPk6JlOUmJKLKqGIaMDQi/c1qKH9eeBMi8vhVQe8xFjgZoy4ObXsy0JFdy441t9XpQunzlkHlk10EkGr07kJC5Xi5J/Euxo+ICtHTJ+7Jmn5ynw/L4J0cr+zsCgYBYgz5nXNIFj14wx4406v0coAmPY3A6UrKH45ezA7OWk1HIxx76D1lAxo/I1dY+Egb2QttmqWnO6DNtyCUbmckpdbxPsnPttOFi0q62jYsWT3+xkMW5OdReBnNPBwUokROJ3f61kjm6jQCqvGVF9nod7J44Zo/7p7p4AdShPFqesQKBgGF8VEXPTJAIQ3z3ftiTODzErrgdoVSg3RC1bDSl4B54QOUDFc7PNUef610QSokV8LBGZxvHWJ6CrbR/brT4V/YwY9ohxKYXIjTLkxnHiN8D2NcIgjcbeQj9BOsqTUWbpogzWkPxlek+9h74e7tVaFF5yL/S3Wwby1dx+paJGW5xAoGAK6yxyjw06wTm3rxWUTl5o1NRx1FtBzyuLpat8zo8SU855zo6PYUC6u2X0D/WzdcbI56G89D35a3JGhrYO3uS8tscyeeOm9wS8OAItrTLUB3aTB5NypbIHQIDv1E+qrrQncH/j3/R/SqJAGT36Qh8GQQZr9bVqrcZ9Nw6j+CG6SE=
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApMcQ1MaZaEvLfF7+2+2qYMfGOVokuyxe4sM232dm9QkbSd1yixRVRb8ETUg24FoJC1rOdHYA1sh5GecGpidWCCNfpx1lfkJ1bCemo7qewtHN+T1ctXci42ZcwqwdV2ZrhPho9uPP8qngpYlGpUOXmKUTR9U9wMc9EYT3l5bltp8Yep6uI+q6kHet5D/aqATQfIGJHBhsFjHI6P1Z+xetk+tDthM8c7U4kMnD9kTYZZFsC9SJQxifkroc2495uMVJFQP7rZYOz3s7RWf563PUvRRH+p2Vu+8WO5lmzyOzCJmwzwoFGOOQ+Aoun1EZy4Ae0prQviaog8KHh7+9mN1HVwIDAQAB
+  notifyUrl: http://af958g.natappfree.cc/alipay/notify

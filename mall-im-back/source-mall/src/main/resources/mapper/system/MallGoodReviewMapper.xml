@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.source.system.mapper.MallGoodReviewMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.source.system.domain.MallGoodReview">
+        <id column="id" property="id"/>
+        <result column="good_id" property="goodId"/>
+        <result column="review_user_id" property="reviewUserId"/>
+        <result column="review_user_url" property="reviewUserUrl"/>
+        <result column="review_user_name" property="reviewUserName"/>
+        <result column="score" property="score"/>
+        <result column="review_date" property="reviewDate"/>
+        <result column="content" property="content"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cn.source.system.domain.MallGoodReview">
+        INSERT INTO mall_good_review
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="goodId != null">good_id,</if>
+            <if test="reviewUserId != null">review_user_id,</if>
+            <if test="reviewUserUrl != null">review_user_url,</if>
+            <if test="reviewUserName != null">review_user_name,</if>
+            <if test="score != null">score,</if>
+            <if test="reviewDate != null">review_date,</if>
+            <if test="content != null">content,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="goodId != null">#{goodId},</if>
+            <if test="reviewUserId != null">#{reviewUserId},</if>
+            <if test="reviewUserUrl != null">#{reviewUserUrl},</if>
+            <if test="reviewUserName != null">#{reviewUserName},</if>
+            <if test="score != null">#{score},</if>
+            <if test="reviewDate != null">#{reviewDate},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+</mapper>
